@@ -1,52 +1,59 @@
 package Zadanie2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CaesarCode {
+    private final String POLISH_ALPHABET_LOWERCASE = "aąbcćdeęfghijklłmnńoóprsŚtuwyzżź";
+    private final String POLISH_ALPHABET_UPPERCASE = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŻŹ";
+    private Map<Character, Character> encodings = new HashMap<>();
+    private Map<Character, Character> decodings = new HashMap<>();
+    private int key;
 
-    public String encode(int key, String message){
-        key = key % 26;
-        if (key > 0){
-            message = positiveKey(key, message);
-        }else if(key < 0 ){
-            message = negativeKey(key, message);
-        }
-        return message;
-    }
+    void initializeKey(int key) {
+        this.key = key % 32;
 
-    public String decode(int key, String message){
-        key = key % 26;
-        if (key > 0){
-            message = negativeKey(-key, message);
-        }else if(key < 0 ){
-            message = positiveKey(-key, message);
-        }
-        return message;
-    }
-
-    private String positiveKey(int key, String message){
-        StringBuilder output = new StringBuilder();
-        for(int i = 0; i < message.length(); i++ ){
-            char c = message.charAt(i);
-            if((c >= 65 && c <= 90 - key)||(c >= 97 && c <= 122 - key)){
-                c += key;
-            } else if((c > 90 - key && c <= 90)||(c >= 122 - key && c <= 122)){
-                c =(char)(c - 26 + key);
+        if(key < 0){
+            for(int i = 0; i < 32; i++){
+                encodings.put(POLISH_ALPHABET_LOWERCASE.charAt(i), POLISH_ALPHABET_LOWERCASE.charAt((i + this.key + 32) % 32));
+                encodings.put(POLISH_ALPHABET_UPPERCASE.charAt(i), POLISH_ALPHABET_UPPERCASE.charAt((i + this.key + 32) % 32));
             }
-            output.append(c);
+        }else {
+            for (int i = 0; i < 32; i++) {
+                encodings.put(POLISH_ALPHABET_LOWERCASE.charAt(i), POLISH_ALPHABET_LOWERCASE.charAt((i + key) % 32));
+                encodings.put(POLISH_ALPHABET_UPPERCASE.charAt(i), POLISH_ALPHABET_UPPERCASE.charAt((i + key) % 32));
+            }
         }
-        return output.toString();
+
+
+        for (char c : encodings.keySet()) {
+            decodings.put(encodings.get(c), c);
+        }
     }
 
-    private String negativeKey(int key, String message){
-        StringBuilder output = new StringBuilder();
-        for(int i = 0; i < message.length(); i++ ){
-            char c = message.charAt(i);
-            if((c >= 65 - key && c <= 90)||(c >= 97 - key && c <= 122)){
-                c += key;
-            } else if((c >= 65 && c < 65 - key)||(c >= 97 && c < 97 - key)){
-                c =(char)(c + 26 + key);
+    public String encode(String message) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : message.toCharArray()) {
+            if (encodings.containsKey(c)) {
+                sb.append(encodings.get(c));
+            } else {
+                sb.append(c);
             }
-            output.append(c);
         }
-        return output.toString();
+        return sb.toString();
     }
+
+    public String decode(String message) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : message.toCharArray()) {
+            if (decodings.containsKey(c)) {
+                sb.append(decodings.get(c));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+
 }
