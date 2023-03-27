@@ -1,6 +1,4 @@
-package Zadanie5;
-
-import Zadanie4.BubbleSort;
+package task4;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -11,21 +9,16 @@ public class Main {
     public static void main(String[] args) {
 
         BubbleSort bubbleSort = new BubbleSort();
-        InsertSort insertSort = new InsertSort();
         Random random = new Random();
 
         for (int i = 10; i <= 100000; i = i * 10) {
 
-
             double[] array1 = new double[i];
             double[] array2 = new double[i];
-            double[] array3 = new double[i];
-
             for (int j = 0; j < i; j++) {
                 double number = random.nextDouble() * 1000;
                 array1[j] = number;
                 array2[j] = number;
-                array3[j] = number;
             }
 
 
@@ -37,18 +30,15 @@ public class Main {
             System.out.println(Duration.between(time1, time2));
 
             time1 = LocalDateTime.now();
-            insertSort.sort(array2);
-            time2 = LocalDateTime.now();
-            System.out.print("Dla tablicy o " + i + " elementach czas sortowania przy pomocy insert sort wynosi: " );
-            System.out.println(Duration.between(time1, time2));
-
-            time1 = LocalDateTime.now();
-            Arrays.sort(array3);
+            Arrays.sort(array2);
             time2 = LocalDateTime.now();
             System.out.print("Dla tablicy o " + i + " elementach czas sortowania przy pomocy quick sort wynosi: " );
             System.out.println(Duration.between(time1, time2) + "\n");
 
         }
 
+
     }
+
+
 }

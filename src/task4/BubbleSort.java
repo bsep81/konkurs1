@@ -1,4 +1,4 @@
-package Zadanie4;
+package task4;
 
 public class BubbleSort {
 

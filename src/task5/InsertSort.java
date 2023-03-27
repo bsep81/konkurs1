@@ -1,4 +1,4 @@
-package Zadanie5;
+package task5;
 
 public class InsertSort {
 

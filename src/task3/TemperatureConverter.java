@@ -1,4 +1,4 @@
-package Zadanie3;
+package task3;
 
 public class TemperatureConverter {
 
